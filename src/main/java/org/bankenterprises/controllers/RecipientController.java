@@ -5,6 +5,7 @@ import java.util.List;
 import org.bankenterprises.models.RecipientModel;
 import org.bankenterprises.repository.RecipientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,6 @@ public class RecipientController {
 	public void addRecipient(@RequestBody RecipientModel recipientModel)
 	{
 		recipientRepository.save(recipientModel);
-		
 	}
 	
 	@GetMapping("/showRecipients")
@@ -32,5 +32,9 @@ public class RecipientController {
 		return recipientRepository.findAllByUserEmail(userEmail);
 	}
 	
-	
+	@DeleteMapping("/deleteRecipient")
+	public void deleteRecipient(@RequestParam("userEmail")String userEmail)
+	{
+		recipientRepository.delete(recipientRepository.findByUserEmail(userEmail));
+	}
 }

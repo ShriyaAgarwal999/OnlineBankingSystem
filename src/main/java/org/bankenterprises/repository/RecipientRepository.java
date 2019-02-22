@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecipientRepository extends MongoRepository<RecipientModel, String> {
 
-	List<RecipientModel> findAllByUserId(int userId);
-
 	List<RecipientModel> findAllByUserEmail(String userEmail);
+
+	RecipientModel findByUserEmail(String userEmail);
 
 }

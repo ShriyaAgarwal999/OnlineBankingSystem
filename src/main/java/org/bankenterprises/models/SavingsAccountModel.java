@@ -1,21 +1,18 @@
 package org.bankenterprises.models;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="savingsAccountDetails")
 public class SavingsAccountModel {
 
-	private String userEmail;
 	private int savingsId;
 	private int savingsBalance;
+	
 	public SavingsAccountModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SavingsAccountModel(String userEmail, int savingsId, int savingsBalance) {
+	public SavingsAccountModel(int savingsId, int savingsBalance) {
 		super();
-		this.userEmail = userEmail;
+
 		this.savingsId = savingsId;
 		this.savingsBalance = savingsBalance;
 	}
@@ -33,20 +30,10 @@ public class SavingsAccountModel {
 		this.savingsBalance = savingsBalance;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
 	@Override
 	public String toString() {
-		return "SavingsAccountModel [userEmail=" + userEmail + ", savingsId=" + savingsId + ", savingsBalance="
-				+ savingsBalance + "]";
+		return "SavingsAccountModel [savingsId=" + savingsId + ", savingsBalance=" + savingsBalance + "]";
 	}
-	
-	
-	
+
+
 }

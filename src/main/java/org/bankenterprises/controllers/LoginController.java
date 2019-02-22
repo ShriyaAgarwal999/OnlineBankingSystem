@@ -15,7 +15,7 @@ public class LoginController {
 	UserRepository userRepository;
 	
 	@GetMapping("/getAllDetails")
-	public String getAllDetails(@RequestParam("userId") String userEmail, @RequestParam("userPassword") String userPassword)
+	public String getAllDetails(@RequestParam("userEmail") String userEmail, @RequestParam("userPassword") String userPassword)
 	{
 		
 		if(userRepository.existsByUserEmail(userEmail)) 
@@ -23,34 +23,6 @@ public class LoginController {
 				return "login Successful";
 			
 		return null;
-		
-//		
-//		UserModel user=userRepository.findByUserId(userId);
-//		
-//		if(userId==user.getUserId())
-//		{
-//			String pass=user.getUserPassword();
-//			
-//			System.out.println(pass);
-//			if(pass.equals(userPassword))
-//			{
-//				System.out.println(user.getUserFirstName());
-//				return userRepository.findByUserId(userId);
-//			}
-//			else
-//			{
-//				System.out.println("password not identified");
-//				return null;
-//			}
-//		}
-//		else
-//		{
-//			System.out.println("id not identified");
-//			return null;
-//		}
-//	}
-//	
-	
 	
 	}	
 }

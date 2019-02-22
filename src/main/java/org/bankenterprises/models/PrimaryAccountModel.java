@@ -1,11 +1,8 @@
 package org.bankenterprises.models;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="primaryAccountDetails")
 public class PrimaryAccountModel {
 
-	private String userEmail;
 	private int primaryId;
 	private int primaryBalance;
 	public PrimaryAccountModel() {
@@ -13,9 +10,9 @@ public class PrimaryAccountModel {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PrimaryAccountModel(String userEmail, int primaryId, int primaryBalance) {
+	public PrimaryAccountModel( int primaryId, int primaryBalance) {
 		super();
-		this.userEmail = userEmail;
+	
 		this.primaryId = primaryId;
 		this.primaryBalance = primaryBalance;
 	}
@@ -33,18 +30,9 @@ public class PrimaryAccountModel {
 		this.primaryBalance = primaryBalance;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
 	@Override
 	public String toString() {
-		return "PrimaryAccountModel [userEmail=" + userEmail + ", primaryId=" + primaryId + ", primaryBalance="
-				+ primaryBalance + "]";
+		return "PrimaryAccountModel [primaryId=" + primaryId + ", primaryBalance=" + primaryBalance + "]";
 	}
 		
 }

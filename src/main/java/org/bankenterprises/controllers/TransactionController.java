@@ -20,9 +20,9 @@ public class TransactionController {
 	TransactionRepository transactionRepository;
 	
 	@GetMapping("/details")
-	public List<TransactionDetailsModel> getDetails(@RequestParam("userId") int userId,@RequestParam("accountType") String accountType)
+	public List<TransactionDetailsModel> getDetails(@RequestParam("userEmail") String userEmail,@RequestParam("accountType") String accountType)
 	{
-		return transactionRepository.findAllByUserId(userId);
+		return transactionRepository.findByUserEmail(userEmail);
 	}
 
 	@PostMapping("/addTransaction")

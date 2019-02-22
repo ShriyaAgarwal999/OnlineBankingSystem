@@ -5,18 +5,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="userDetails")
 public class UserModel {
 	
-	private int userId;
+	private long userId;
     private String userFirstName;
     private String userLastName;
     private String userPassword;
     private String userEmail;
     private String userPhone;
+    
+    private SavingsAccountModel sam=new SavingsAccountModel();
+    private PrimaryAccountModel pam=new PrimaryAccountModel();
+    
 	public UserModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public UserModel(int userId, String userFirstName, String userLastName, String userPassword, String userEmail,
-			String userPhone) {
+			String userPhone, SavingsAccountModel sam, PrimaryAccountModel pam) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -24,12 +29,15 @@ public class UserModel {
 		this.userPassword = userPassword;
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
+		this.sam = sam;
+		this.pam = pam;
 	}
-	public int getUserId() {
+
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(long l) {
+		this.userId = l;
 	}
 	public String getUserFirstName() {
 		return userFirstName;
@@ -61,11 +69,28 @@ public class UserModel {
 	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
 	}
-	@Override
-	public String toString() {
-		return "User [userID=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
-				+ ", userPassword=" + userPassword + ", userEmail=" + userEmail + ", userPhone=" + userPhone + "]";
+
+	public SavingsAccountModel getSam() {
+		return sam;
 	}
 
-    
+	public void setSam(SavingsAccountModel sam) {
+		this.sam = sam;
+	}
+
+	public PrimaryAccountModel getPam() {
+		return pam;
+	}
+
+	public void setPam(PrimaryAccountModel pam) {
+		this.pam = pam;
+	}
+
+	@Override
+	public String toString() {
+		return "UserModel [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
+				+ ", userPassword=" + userPassword + ", userEmail=" + userEmail + ", userPhone=" + userPhone + ", sam="
+				+ sam + ", pam=" + pam + "]";
+	}
+
 }

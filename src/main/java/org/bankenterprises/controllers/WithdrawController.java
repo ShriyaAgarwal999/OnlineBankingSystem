@@ -1,7 +1,9 @@
 package org.bankenterprises.controllers;
 
-import org.bankenterprises.repository.PrimaryAccountRepository;
-import org.bankenterprises.repository.SavingsAccountRepository;
+import org.bankenterprises.models.PrimaryAccountModel;
+import org.bankenterprises.models.SavingsAccountModel;
+import org.bankenterprises.models.UserModel;
+import org.bankenterprises.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,32 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class WithdrawController {
 	
 	@Autowired
-	SavingsAccountRepository savingsAccountRepository;
-	
-	@Autowired
-	PrimaryAccountRepository primaryAccountRepository;
+	UserRepository userRepository;
 	
 	@GetMapping("/withdrawDetails")
-	public void depositDetails(@RequestParam("userId") String userEmail,@RequestParam("accountType") String accountType,@RequestParam("withdrawAmount") int withdrawAmount)
+	public String depositDetails(@RequestParam("userEmail") String userEmail,@RequestParam("accountType") String accountType,@RequestParam("withdrawAmount") int withdrawAmount)
 	{
-		int balance;
-		if(accountType.equals("savingsAccount") && savingsAccountRepository.existsByUserEmail(userEmail))
-		{
-			balance=savingsAccountRepository.findByUserEmail(userEmail).getSavingsBalance();
-			if(balance>withdrawAmount)
-				savingsAccountRepository.findByUserEmail(userEmail).setSavingsBalance(balance-withdrawAmount);
-			else
-				System.out.println("low balance");
-		}
-		else if(accountType.equals("primaryAccount") && primaryAccountRepository.existsByUserEmail(userEmail))
-		{
-			balance=primaryAccountRepository.findByUserEmail(userEmail).getPrimaryBalance();
-			if(balance>withdrawAmount)
-				primaryAccountRepository.findByUserEmail(userEmail).setPrimaryBalance(balance-withdrawAmount);
-			else
-				System.out.println("low balance");
-			
-		}	
-	}
+		UserModel userModel=userRepository.findByUserEmail(userEmail);
 
+		if(accountType.equals("savingsAccount") && (userModel.getSam().getSavingsBalance()>withdrawAmount) ) {
+			userModel.setSam(new SavingsAccountModel(userModel.getSam().getSavingsId(),userModel.getSam().getSavingsBalance()-withdrawAmount));
+			userRepository.save(userModel);
+			return "debited";
+		}
+		else if(accountType.equals("primaryAccount") && (userModel.getPam().getPrimaryBalance()>withdrawAmount))
+		{
+			userModel.setPam(new PrimaryAccountModel(userModel.getPam().getPrimaryId(),userModel.getPam().getPrimaryBalance()-withdrawAmount));
+			userRepository.save(userModel);
+			return "debited";
+			
+		}
+		return "Your balance id low!";
+	}
 }

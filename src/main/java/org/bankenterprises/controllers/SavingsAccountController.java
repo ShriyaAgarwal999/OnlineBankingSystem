@@ -1,6 +1,6 @@
 package org.bankenterprises.controllers;
 
-import org.bankenterprises.repository.SavingsAccountRepository;
+import org.bankenterprises.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SavingsAccountController {
 
 	@Autowired
-	SavingsAccountRepository savingsAccountRepository;
+	UserRepository user;
 	
 	@GetMapping("/balance")
 	public int showBalance(@RequestParam("userEmail")String userEmail)
 	{
-		return savingsAccountRepository.findByUserEmail(userEmail).getSavingsBalance();
+		return user.findByUserEmail(userEmail).getSam().getSavingsBalance();
 	}
 }

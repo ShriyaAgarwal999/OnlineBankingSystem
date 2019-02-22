@@ -1,9 +1,9 @@
 package org.bankenterprises.controllers;
 
-import org.bankenterprises.repository.PrimaryAccountRepository;
-import org.bankenterprises.repository.SavingsAccountRepository;
+import org.bankenterprises.models.UserModel;
+import org.bankenterprises.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,26 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class DepositController {
 
 	@Autowired
-	SavingsAccountRepository savingsAccountRepository;
+	UserRepository userRepository;
 	
-	@Autowired
-	PrimaryAccountRepository primaryAccountRepository;
-	
-	@GetMapping("/depositDetails")
-	public void depositDetails(@RequestParam("userEmail") String userEmail, @RequestParam("accountType") String accountType, @RequestParam("depositAmount") int depositAmount)
+	@PutMapping("/depositDetails")
+	public String depositDetails(@RequestParam("userEmail") String userEmail, @RequestParam("accountType") String accountType, @RequestParam("depositAmount") int depositAmount)
 	{
-		int balance;
-		if(accountType.equals("savingsAccount") && savingsAccountRepository.existsByUserEmail(userEmail))
-		{
-			balance=savingsAccountRepository.findByUserEmail(userEmail).getSavingsBalance();
-			savingsAccountRepository.findByUserEmail(userEmail).setSavingsBalance(balance+depositAmount);
-		}
-		else if(accountType.equals("primaryAccount") && primaryAccountRepository.existsByUserEmail(userEmail))
-		{
-			balance=primaryAccountRepository.findByUserEmail(userEmail).getPrimaryBalance();
-			primaryAccountRepository.findByUserEmail(userEmail).setPrimaryBalance(balance+depositAmount);
+		UserModel userModel=userRepository.findByUserEmail(userEmail);
+		System.out.println(userModel.toString());
+		if(accountType.equals("savingsAccount")){
+			userModel.getSam().setSavingsBalance(depositAmount + userModel.getSam().getSavingsBalance());
+			System.out.println(userModel.getSam().getSavingsBalance());
+			userRepository.save(userModel);
+			System.out.println(userRepository.findAll().toString());
 			
+			return "added";
 		}
-		
+		else if(accountType.equals("primaryAccount")){
+			userModel.getPam().setPrimaryBalance(depositAmount + userModel.getPam().getPrimaryBalance());
+			userRepository.save(userModel);
+			return "added";
+		}
+		return "failed";
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends MongoRepository<TransactionDetailsModel, String> {
 
-	List<TransactionDetailsModel> findAllByUserId(int userId);
 
+	boolean existsByUserEmail(String userEmail);	
+	List<TransactionDetailsModel> findByUserEmail(String userEmail);
 }
